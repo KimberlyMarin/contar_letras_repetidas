@@ -33,7 +33,7 @@ public class Main {
                 letraMasRepetida = letraActual;
             }
         }
-
+        /*se imprime la cantidad de veces que se repite la letra*/
         System.out.println(letraMasRepetida +": Se repite "+mayorRepeticion);
 
     }
