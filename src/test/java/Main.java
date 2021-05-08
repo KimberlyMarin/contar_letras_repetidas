@@ -1,41 +1,49 @@
 package src.test.java;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        /*se invoca la clase scanner para guardar un dato digitado*/
-        Scanner lector = new Scanner(System.in);
-        String texto = "";
-        char [] letras;
-        /*Se inicializan las variables que guardaran el contador de letras repetidas y la letra repetida*/
-        int mayorRepeticion = 0;
-        char letraMasRepetida = 0;
-        /*Se asigna a una variable la frase digitada*/
-        System.out.println("Escribe una frase: ");
-        texto = lector.nextLine();
-        letras = texto.toCharArray();
-        /*Se recorre la frase dependiendo de la cantidad de letras identificadas*/
-        for(int i=0; i<letras.length; i++){
-
-            char letraActual = letras[i];
-            int contador = 0;
-        /*Se almacena la cantidad de veces que esta una letra y se recorre la frase*/
-            for (int j =0; j<letras.length; j++){
-                if (letras[j] == letraActual)
-                    contador++;
-            }
-        /*Se compara la letra repetida con la que se almacena en el contador */
-            if(mayorRepeticion < contador)
-            {
-                mayorRepeticion = contador;
-                letraMasRepetida = letraActual;
+    public static void ordenamientoArreglos(Character[] letras, int[] apariciones) {
+        for (int j = letras.length - 1; j > 0; j--) {
+            for (int k = 0; k < j; k++) {
+                if (k + 1 <= j && apariciones[k] < apariciones[k + 1]) {
+                    Character aux = letras[k];
+                    int iux = apariciones[k];
+                    letras[k] = letras[k + 1];
+                    apariciones[k] = apariciones[k + 1];
+                    letras[k + 1] = aux;
+                    apariciones[k + 1] = iux;
+                }
             }
         }
-        /*se imprime la cantidad de veces que se repite la letra*/
-        System.out.println(letraMasRepetida +": Se repite "+mayorRepeticion);
-
+    }
+    public static void main(String[] args) {
+        /*se llama la clase scanner para ingresar el dato*/
+        Map<Character, Integer> caracteres = new HashMap();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Introduce una frase: ");
+        String cadena = sc.nextLine();
+        /*se extrae cada posicion de cada letra*/
+        for (char c : cadena.toCharArray()) {
+            caracteres.put(c, caracteres.containsKey(c) ? caracteres.get(c) + 1 : 1);
+        }
+        Character[] letras = new Character[caracteres.size()];
+        int[] apariciones = new int[letras.length];
+        caracteres.keySet().toArray(letras);
+        /*se realiza la comparacion de la candidad de veces que aparece una letra*/
+        for (int j = 0; j < apariciones.length; j++) {
+            apariciones[j] = caracteres.get(letras[j]);
+        }
+        ordenamientoArreglos(letras, apariciones);
+        System.out.println("Las letras de la frase \"" + cadena + "\" se repiten así:");
+        /*se imprime las letras repitas*/
+        for (int j = 0; j < apariciones.length; j++) {
+            if(apariciones[j]>1){
+                System.out.println(letras[j] + ": " + apariciones[j]);
+            }
+        }
     }
 }
-
